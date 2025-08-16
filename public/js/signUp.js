@@ -1,4 +1,9 @@
-import { createHtmlElement, customAppendChild } from '../utils/dom.js';
+import {
+  createHtmlElement,
+  customAppendChild,
+  createFormField,
+  createPasswordField,
+} from '../utils/dom.js';
 
 export const createSignUpPage = () => {
   const app = document.querySelector('.app');
@@ -51,94 +56,30 @@ export const createSignUpPage = () => {
   ]);
 
   const registerForm = createHtmlElement('form', ['space-y-6'], '');
-
-  const usernameDiv = createHtmlElement('div');
-  const labelUsername = createHtmlElement(
-    'label',
-    ['block', 'text-gray-700', 'font-medium', 'mb-2'],
-    'Username'
+  const {
+    div: usernameDiv,
+    input: inputUsername,
+    error: usernameError,
+  } = createFormField('Username', 'text', 'username', 'Enter your username');
+  const {
+    div: emailDiv,
+    input: inputEmail,
+    error: emailError,
+  } = createFormField('Email', 'email', 'email', 'Enter your email');
+  const {
+    div: passDiv,
+    input: inputPass,
+    error: passwordError,
+  } = createPasswordField('Password', 'password', 'Enter your password');
+  const {
+    div: confirmDiv,
+    input: inputConfirm,
+    error: confirmPasswordError,
+  } = createPasswordField(
+    'Confirm Password',
+    'confirmPassword',
+    'Re-enter your password'
   );
-  const inputUsername = createHtmlElement('input', [
-    'w-full',
-    'px-4',
-    'py-2.5',
-    'border',
-    'border-gray-300',
-    'rounded-lg',
-    'focus:outline-none',
-    'focus:ring-2',
-    'focus:ring-blue-500',
-    'transition',
-  ]);
-  inputUsername.type = 'text';
-  inputUsername.name = 'username';
-  inputUsername.placeholder = 'Enter your username';
-
-  const emailDiv = createHtmlElement('div');
-  const labelEmail = createHtmlElement(
-    'label',
-    ['block', 'text-gray-700', 'font-medium', 'mb-2'],
-    'Email'
-  );
-  const inputEmail = createHtmlElement('input', [
-    'w-full',
-    'px-4',
-    'py-2.5',
-    'border',
-    'border-gray-300',
-    'rounded-lg',
-    'focus:outline-none',
-    'focus:ring-2',
-    'focus:ring-blue-500',
-    'transition',
-  ]);
-  inputEmail.type = 'email';
-  inputEmail.name = 'email';
-  inputEmail.placeholder = 'Enter your email';
-
-  const passDiv = createHtmlElement('div');
-  const labelPass = createHtmlElement(
-    'label',
-    ['block', 'text-gray-700', 'font-medium', 'mb-2'],
-    'Password'
-  );
-  const inputPass = createHtmlElement('input', [
-    'w-full',
-    'px-4',
-    'py-2.5',
-    'border',
-    'border-gray-300',
-    'rounded-lg',
-    'focus:outline-none',
-    'focus:ring-2',
-    'focus:ring-blue-500',
-    'transition',
-  ]);
-  inputPass.type = 'password';
-  inputPass.name = 'password';
-  inputPass.placeholder = 'Enter your password';
-
-  const confirmDiv = createHtmlElement('div');
-  const labelConfirm = createHtmlElement(
-    'label',
-    ['block', 'text-gray-700', 'font-medium', 'mb-2'],
-    'Confirm Password'
-  );
-  const inputConfirm = createHtmlElement('input', [
-    'w-full',
-    'px-4',
-    'py-2.5',
-    'border',
-    'border-gray-300',
-    'rounded-lg',
-    'focus:outline-none',
-    'focus:ring-2',
-    'focus:ring-blue-500',
-    'transition',
-  ]);
-  inputConfirm.type = 'password';
-  inputConfirm.name = 'confirmPassword';
-  inputConfirm.placeholder = 'Re-enter your password';
 
   const registerBtn = createHtmlElement(
     'button',
@@ -156,7 +97,7 @@ export const createSignUpPage = () => {
   );
   const errorMsg = createHtmlElement(
     'p',
-    ['text-red-600', 'text-sm','hidden', 'text-left'],
+    ['text-red-600', 'text-sm', 'hidden', 'text-left'],
     'Please fill in all fields'
   );
 
@@ -171,11 +112,6 @@ export const createSignUpPage = () => {
     'Log in'
   );
   loginLink.appendChild(loginAnchor);
-
-  customAppendChild(usernameDiv, labelUsername, inputUsername);
-  customAppendChild(emailDiv, labelEmail, inputEmail);
-  customAppendChild(passDiv, labelPass, inputPass);
-  customAppendChild(confirmDiv, labelConfirm, inputConfirm);
 
   customAppendChild(
     registerForm,

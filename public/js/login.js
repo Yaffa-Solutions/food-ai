@@ -1,4 +1,4 @@
-import { createHtmlElement, customAppendChild } from '../utils/dom.js';
+import { createHtmlElement, customAppendChild, createFormField,createPasswordField} from '../utils/dom.js';
 
 export const createLoginPage = () => {
   const app = document.querySelector('.app');
@@ -46,49 +46,21 @@ export const createLoginPage = () => {
   ]);
 
   const loginForm = createHtmlElement('form', ['space-y-6'], '');
-  const userDiv = createHtmlElement('div');
-  const labelUser = createHtmlElement(
-    'label',
-    ['block', 'text-gray-700', 'font-medium', 'mb-2'],
-    'Email or Username'
+  const {
+    div: userDiv,
+    input: inputUser,
+    error: userError,
+  } = createFormField(
+    'Email or Username',
+    'text',
+    'user',
+    'Enter your email or username'
   );
-  const inputUser = createHtmlElement('input', [
-    'w-full',
-    'px-4',
-    'py-2.5',
-    'border',
-    'border-gray-300',
-    'rounded-lg',
-    'focus:outline-none',
-    'focus:ring-2',
-    'focus:ring-blue-500',
-    'transition',
-  ]);
-  inputUser.type = 'text';
-  inputUser.name = 'user';
-  inputUser.placeholder = 'Enter your email or username';
-
-  const passDiv = createHtmlElement('div');
-  const labelPass = createHtmlElement(
-    'label',
-    ['block', 'text-gray-700', 'font-medium', 'mb-2'],
-    'Password'
-  );
-  const inputPass = createHtmlElement('input', [
-    'w-full',
-    'px-4',
-    'py-2.5',
-    'border',
-    'border-gray-300',
-    'rounded-lg',
-    'focus:outline-none',
-    'focus:ring-2',
-    'focus:ring-blue-500',
-    'transition',
-  ]);
-  inputPass.type = 'password';
-  inputPass.name = 'password';
-  inputPass.placeholder = 'Enter your password';
+  const {
+    div: passDiv,
+    input: inputPass,
+    error: passwordError,
+  } = createPasswordField('Password', 'password', 'Enter your password');
 
   const loginBtn = createHtmlElement(
     'button',
@@ -121,9 +93,6 @@ export const createLoginPage = () => {
   );
 
   customAppendChild(signupLink, signupAnchor);
-
-  customAppendChild(userDiv, labelUser, inputUser);
-  customAppendChild(passDiv, labelPass, inputPass);
 
   customAppendChild(
     loginForm,
