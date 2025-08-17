@@ -125,7 +125,12 @@ export const createLoginPage = () => {
   const signupAnchor = createHtmlElement(
     'a',
     ['text-blue-500', 'font-medium', 'hover:underline'],
-    'Sign Up'
+    'Sign Up',
+    {
+      click: () => {
+        document.dispatchEvent(new Event('navigateToSignUP'));
+      }
+    }
   );
 
   customAppendChild(signupLink, signupAnchor);
@@ -172,4 +177,3 @@ export const createLoginPage = () => {
   });
 };
 
-createLoginPage();
