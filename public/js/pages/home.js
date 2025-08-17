@@ -1,4 +1,4 @@
-import { createHtmlElement, customAppendChild } from '../utils/dom.js';
+import { createHtmlElement, customAppendChild } from '../../utils/dom.js';
 
 export const createHomePage = (username) => {
   const app = document.querySelector('.app');
