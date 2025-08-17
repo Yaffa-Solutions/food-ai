@@ -14,7 +14,7 @@ document.addEventListener('navigateToLogin', () => {
   document.querySelector('.app').innerHTML = '';
   createLoginPage();
 });
-// document.addEventListener("navigateHome", () => {
-//   document.querySelector(".app").innerHTML = "";
-//   createHomePage();
-// });
+document.addEventListener("navigateHome", (e) => {
+  document.querySelector(".app").innerHTML = "";
+  createHomePage(e.detail.username);
+});
