@@ -60,4 +60,3 @@ export const createHomePage = (username) => {
   customAppendChild(app, nav);
 };
 
-createHomePage('Marwa');
