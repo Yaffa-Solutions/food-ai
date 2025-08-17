@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "db:migration": "node database/migrations/initDatabase.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +19,13 @@
   "bugs": {
     "url": "https://github.com/Yaffa-Solutions/food-ai/issues"
   },
-  "homepage": "https://github.com/Yaffa-Solutions/food-ai#readme"
+  "homepage": "https://github.com/Yaffa-Solutions/food-ai#readme",
+  "dependencies": {
+    "env2": "^2.2.2",
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }
