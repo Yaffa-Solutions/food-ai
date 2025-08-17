@@ -1,5 +1,10 @@
-import { createHtmlElement, customAppendChild, createFormField,createPasswordField} from '../utils/dom.js';
-
+import {
+  createHtmlElement,
+  customAppendChild,
+  createFormField,
+  createPasswordField,
+} from '../../utils/dom.js';
+import { isRequired } from '../../utils/validayion.js';
 export const createLoginPage = () => {
   const app = document.querySelector('.app');
 
@@ -45,7 +50,36 @@ export const createLoginPage = () => {
     'mx-4',
   ]);
 
-  const loginForm = createHtmlElement('form', ['space-y-6'], '');
+  const loginForm = createHtmlElement('form', ['space-y-6'], '', {
+    submit: (e) => {
+      e.preventDefault();
+
+      let isValid = true;
+
+      if (!isRequired(inputUser.value)) {
+        showError(userError, 'Email or Username is required.');
+        isValid = false;
+      } else {
+        hideError(userError);
+      }
+
+      if (!isRequired(inputPass.value)) {
+        showError(passwordError, 'Password is required.');
+        isValid = false;
+      } else {
+        hideError(passwordError);
+      }
+
+      if (isValid) {
+        alert('Login successful!');
+        loginForm.reset();
+        hideError(userError);
+        hideError(passwordError);
+      } else {
+        errorMsg.classList.remove('hidden');
+      }
+    },
+  });
   const {
     div: userDiv,
     input: inputUser,
@@ -78,9 +112,11 @@ export const createLoginPage = () => {
   );
   const errorMsg = createHtmlElement(
     'p',
-    ['text-red-600', 'text-sm', 'hidden', 'text-left'],
-    'Please fill in all fields'
+    ['text-red-500', 'text-center', 'mt-2', 'hidden'],
+    ''
   );
+  customAppendChild(cardDiv, errorMsg);
+
   const signupLink = createHtmlElement(
     'p',
     ['text-center', 'text-sm', 'text-gray-600', 'mt-4'],
@@ -94,17 +130,46 @@ export const createLoginPage = () => {
 
   customAppendChild(signupLink, signupAnchor);
 
-  customAppendChild(
-    loginForm,
-    userDiv,
-    passDiv,
-    loginBtn,
-    errorMsg,
-    signupLink
-  );
+  customAppendChild(loginForm, userDiv, passDiv, loginBtn, signupLink);
   customAppendChild(cardDiv, loginForm);
   customAppendChild(mainContent, headerDiv, cardDiv);
   customAppendChild(app, mainContent);
+
+  const showError = (errorElement, message) => {
+    errorElement.textContent = message;
+    errorElement.classList.remove('hidden');
+  };
+
+  const hideError = (errorElement) => {
+    errorElement.textContent = '';
+    errorElement.classList.add('hidden');
+  };
+  const validateField = (input, errorElement, validationFn, errorMessage) => {
+    if (!validationFn(input.value)) {
+      showError(errorElement, errorMessage);
+      return false;
+    }
+    hideError(errorElement);
+    return true;
+  };
+
+  inputUser.addEventListener('blur', () => {
+    validateField(
+      inputUser,
+      userError,
+      isRequired,
+      'Username or Email is required.'
+    );
+  });
+
+  inputPass.addEventListener('blur', () => {
+    validateField(
+      inputPass,
+      passwordError,
+      isRequired,
+      'Password is required.'
+    );
+  });
 };
 
 createLoginPage();

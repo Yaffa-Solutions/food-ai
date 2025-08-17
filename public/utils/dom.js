@@ -71,7 +71,7 @@ export const createPasswordField = (labelText, inputName, placeholderText) => {
     'rounded-lg',
     'focus:outline-none',
     'focus:ring-2',
-    'focus:ring-blue-500',
+    'focus:ring-blue-200',
     'transition',
     'pr-10',
   ]);
