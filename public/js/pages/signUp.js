@@ -239,44 +239,36 @@ export const createSignUpPage = () => {
   });
 
   inputPass.addEventListener('blur', () => {
-
     const value = inputPass.value;
 
-  if (!isRequired(value)) {
+    if (!isRequired(value)) {
       showError(passwordError, 'Password is required.');
       return;
-  }
-  const validation = isValidPassword(value);
-  if (!validation.minLength) {
+    }
+    const validation = isValidPassword(value);
+    if (!validation.minLength) {
       showError(passwordError, 'Password must be at least 6 characters.');
-  } else if (!validation.hasLower) {
-      showError(passwordError, 'Password must contain at least one lowercase letter.');
-  } else if (!validation.hasUpper) {
-      showError(passwordError, 'Password must contain at least one uppercase letter.');
-  } else if (!validation.hasNumber) {
+    } else if (!validation.hasLower) {
+      showError(
+        passwordError,
+        'Password must contain at least one lowercase letter.'
+      );
+    } else if (!validation.hasUpper) {
+      showError(
+        passwordError,
+        'Password must contain at least one uppercase letter.'
+      );
+    } else if (!validation.hasNumber) {
       showError(passwordError, 'Password must contain at least one number.');
-  } else if (!validation.hasSpecial) {
-      showError(passwordError, 'Password must contain at least one special character.');
-  } else {
+    } else if (!validation.hasSpecial) {
+      showError(
+        passwordError,
+        'Password must contain at least one special character.'
+      );
+    } else {
       hideError(passwordError);
-  }
-});
-    // if (
-    //   validateField(
-    //     inputPass,
-    //     passwordError,
-    //     isRequired,
-    //     'Password is required.'
-    //   )
-    // ) {
-    //   return;
-    // }
-    // validateField(
-    //   inputPass,
-    //   passwordError,
-    //   isValidPassword,
-    //   'Password must be at least 6, include uppercase, lowercase, number, special character .'
-    // );
+    }
+  });
 
   inputConfirm.addEventListener('blur', () => {
     if (
