@@ -121,12 +121,25 @@ export const createSignUpPage = () => {
       }
 
       if (isValid) {
-        alert('Form submitted successfully!');
-        registerForm.reset();
-        hideError(usernameError);
-        hideError(emailError);
-        hideError(passwordError);
-        hideError(confirmPasswordError);
+        fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: inputUsername.value,
+            email: inputEmail.value,
+            password: inputPass.value,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            alert(`Welcome ${data.user.username}! Your token: ${data.token}`);
+            registerForm.reset();
+            hideError(usernameError);
+            hideError(emailError);
+            hideError(passwordError);
+            hideError(confirmPasswordError);
+          })
+          .catch((err) => console.error('Error:', err));
       }
     },
   });
