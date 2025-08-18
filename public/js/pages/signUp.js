@@ -11,8 +11,8 @@ import {
   isPasswordMatch,
 } from '../../utils/validayion.js';
 
+const app= document.querySelector('.app')
 export const createSignUpPage = () => {
-  const app = document.querySelector('.app');
 
   const mainContent = createHtmlElement('main', [
     'flex-grow',
@@ -133,25 +133,11 @@ export const createSignUpPage = () => {
         })
           .then((res) => res.json())
           .then((data) => {
-            if (data.error || data.errors) {
-              console.error('Signup failed:', data);
-              if (data.error?.includes('Email')) {
-                showError(emailError, data.error);
-              } else alert(data.error || data.errors[0].msg);
-              return;
-            }
-            if (!data.user) {
-              console.error('User data missing:', data);
-              alert('Something went wrong. Please try again.');
-              return;
-            }
-            sessionStorage.setItem('token', data.token);
-            sessionStorage.setItem('username', data.user.username);
-            document.dispatchEvent(
-              new CustomEvent('navigateHome', {
-                detail: { username: data.user.username },
-              })
-            );
+            
+          window.location.hash = '#home';
+            console.log('user', data.user);
+            localStorage.setItem('name', data.user.name);
+
           })
           .catch((err) => {
             console.error('Error:', err);
@@ -211,8 +197,7 @@ export const createSignUpPage = () => {
     'Log in',
     {
       click: () => {
-        document.dispatchEvent(new Event('navigateToLogin'));
-      },
+        window.location.hash = '#login';      },
     }
   );
   loginLink.appendChild(loginAnchor);

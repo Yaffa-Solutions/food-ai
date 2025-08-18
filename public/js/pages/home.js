@@ -1,11 +1,13 @@
 import { createHtmlElement, customAppendChild } from '../../utils/dom.js';
 
-export const createHomePage = (username) => {
-  const token = sessionStorage.getItem('token');
-  if (!token) {
-    document.dispatchEvent(new Event('navigateToLogin'));
+export const createHomePage = () => {
+   const username = localStorage.getItem('name');
+  const cookies = document.cookie;
+  if (!cookies) {
+    window.location.href = '#login';
     return;
   }
+
   const app = document.querySelector('.app');
   const nav = createHtmlElement('nav', [
     'flex',

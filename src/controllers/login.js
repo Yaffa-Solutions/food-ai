@@ -14,10 +14,22 @@ const loginAuth = (req, res) => {
         if (!isMatch) {
           return res.status(401).json({ error: 'Invalid password' });
         }
-        const token = jwt.sign({ id: foundUser.id }, process.env.JWT_SECRET, {
-          expiresIn: '7d',
+        const token = jwt.sign(
+          { id: foundUser.id, name: foundUser.username },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: '7d',
+          }
+        );
+
+        res.cookie('token', token, {
+          maxAge: 60 * 60 * 1000,
         });
-        res.json({ user: foundUser, token });
+
+        res.status(200).json({
+          status: '200',
+          user: foundUser,
+        });
       });
     })
     .catch((err) => {

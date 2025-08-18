@@ -80,23 +80,20 @@ export const createLoginPage = () => {
           }),
         })
           .then((response) =>
-            response
-              .json()
-              .then((data) => ({ status: response.status, body: data }))
+            response.json()
           )
+              .then((data) => ({ status: data.status, body: data }))
+
           .then(({ status, body }) => {
-            if (status === 200 && body.token) {
-              sessionStorage.setItem('token', body.token);
-              sessionStorage.setItem('username', body.username);
-              document.dispatchEvent(
-                new CustomEvent('navigateHome', {
-                  detail: { username: body.user.username },
-                })
-              );
+
+            if (status == 200) {
+              localStorage.setItem('name',body.user.username);
+              window.location.hash='#home'
             } else {
               showError(errorMsg, body.error || 'Login failed');
             }
           })
+
           .catch(() => {
             showError(errorMsg, 'Server error, try again later');
           });
@@ -152,7 +149,7 @@ export const createLoginPage = () => {
     'Sign Up',
     {
       click: () => {
-        document.dispatchEvent(new Event('navigateToSignUP'));
+        window.location.hash = '#signup';
       },
     }
   );
