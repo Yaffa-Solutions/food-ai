@@ -1,7 +1,7 @@
 const express = require('express');
 const { join } = require('path'); 
-const authRouter = require('./src/routers/auth');
-const authRoutes = require('./src/routers/authRouter.js');
+const authRouter = require('./src/routers/authRouter');
+// const authRoutes = require('./src/routers/authRouter.js');
 const foodRouter = require('./src/routers/foodRouter.js');
 
 
@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 app.use('/api/auth/', authRouter);
-app.use('/api/auth', authRoutes);
+// app.use('/api/auth', authRoutes);
 app.use('/api/foods/', foodRouter);
 
 
