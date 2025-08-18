@@ -30,9 +30,6 @@ const signup = (req, res) => {
       );
 
       res.cookie('token', token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
         maxAge: 60 * 60 * 1000,
       });
 
