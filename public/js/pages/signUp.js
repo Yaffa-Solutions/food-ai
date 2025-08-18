@@ -116,30 +116,47 @@ export const createSignUpPage = () => {
         showError(confirmPasswordError, 'Confirm password is required.');
         isValid = false;
       } else if (!isPasswordMatch(inputPass.value, inputConfirm.value)) {
-        showError(confirmPasswordError, 'Passwords do not match.');
+        showError(confirmPasswordError, 'Passwords dose not match.');
         isValid = false;
       }
 
       if (isValid) {
-        fetch('/api/auth/register', {
+        fetch('/api/auth/signup', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             username: inputUsername.value,
             email: inputEmail.value,
             password: inputPass.value,
+            confirmPassword: inputConfirm.value,
           }),
         })
           .then((res) => res.json())
           .then((data) => {
-            alert(`Welcome ${data.user.username}! Your token: ${data.token}`);
-            registerForm.reset();
-            hideError(usernameError);
-            hideError(emailError);
-            hideError(passwordError);
-            hideError(confirmPasswordError);
+            if (data.error || data.errors) {
+              console.error('Signup failed:', data);
+              if (data.error?.includes('Email')) {
+                showError(emailError, data.error);
+              } else alert(data.error || data.errors[0].msg);
+              return;
+            }
+            if (!data.user) {
+              console.error('User data missing:', data);
+              alert('Something went wrong. Please try again.');
+              return;
+            }
+            sessionStorage.setItem('token', data.token);
+            sessionStorage.setItem('username', data.user.username);
+            document.dispatchEvent(
+              new CustomEvent('navigateHome', {
+                detail: { username: data.user.username },
+              })
+            );
           })
-          .catch((err) => console.error('Error:', err));
+          .catch((err) => {
+            console.error('Error:', err);
+            alert('Server error. Please try again later.');
+          });
       }
     },
   });
@@ -306,4 +323,3 @@ export const createSignUpPage = () => {
     }
   });
 };
-

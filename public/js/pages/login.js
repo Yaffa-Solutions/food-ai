@@ -7,7 +7,7 @@ import {
 import { isRequired } from '../../utils/validayion.js';
 export const createLoginPage = () => {
   const app = document.querySelector('.app');
-
+  app.innerHTML = '';
   const mainContent = createHtmlElement('main', [
     'flex-grow',
     'flex',
@@ -71,10 +71,35 @@ export const createLoginPage = () => {
       }
 
       if (isValid) {
-        alert('Login successful!');
-        loginForm.reset();
-        hideError(userError);
-        hideError(passwordError);
+        fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user: inputUser.value,
+            password: inputPass.value,
+          }),
+        })
+          .then((response) =>
+            response
+              .json()
+              .then((data) => ({ status: response.status, body: data }))
+          )
+          .then(({ status, body }) => {
+            if (status === 200 && body.token) {
+              sessionStorage.setItem('token', body.token);
+              sessionStorage.setItem('username', body.username);
+              document.dispatchEvent(
+                new CustomEvent('navigateHome', {
+                  detail: { username: body.user.username },
+                })
+              );
+            } else {
+              showError(errorMsg, body.error || 'Login failed');
+            }
+          })
+          .catch(() => {
+            showError(errorMsg, 'Server error, try again later');
+          });
       } else {
         errorMsg.classList.remove('hidden');
       }
@@ -112,10 +137,9 @@ export const createLoginPage = () => {
   );
   const errorMsg = createHtmlElement(
     'p',
-    ['text-red-500', 'text-center', 'mt-2', 'hidden'],
+    ['text-red-500', 'text-left', 'mt-2', 'hidden', 'text-sm'],
     ''
   );
-  customAppendChild(cardDiv, errorMsg);
 
   const signupLink = createHtmlElement(
     'p',
@@ -129,13 +153,20 @@ export const createLoginPage = () => {
     {
       click: () => {
         document.dispatchEvent(new Event('navigateToSignUP'));
-      }
+      },
     }
   );
 
   customAppendChild(signupLink, signupAnchor);
 
-  customAppendChild(loginForm, userDiv, passDiv, loginBtn, signupLink);
+  customAppendChild(
+    loginForm,
+    userDiv,
+    passDiv,
+    loginBtn,
+    errorMsg,
+    signupLink
+  );
   customAppendChild(cardDiv, loginForm);
   customAppendChild(mainContent, headerDiv, cardDiv);
   customAppendChild(app, mainContent);
@@ -176,4 +207,3 @@ export const createLoginPage = () => {
     );
   });
 };
-

@@ -2,6 +2,8 @@ const express = require('express');
 const { join } = require('path'); 
 const authRouter = require('./src/routers/auth');
 const authRoutes = require('./src/routers/authRouter.js');
+const foodRouter = require('./src/routers/foodRouter.js');
+
 
 const app = express();
 app.use(express.json());
@@ -12,6 +14,9 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth/', authRouter);
 app.use('/api/auth', authRoutes);
+app.use('/api/foods/', foodRouter);
+
+
 app.set('port', process.env.PORT || 5000);
 
 
