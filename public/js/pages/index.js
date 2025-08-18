@@ -3,40 +3,26 @@ import { createLoginPage } from './login.js';
 import { createHomePage } from './home.js';
 
 const app = document.querySelector('.app');
- 
-const loadPage = () => {
-  const token = sessionStorage.getItem('token');
-  const hash = window.location.hash;
 
+const renderRoute = () => {
+  const hash = window.location.hash || '#home';
   app.innerHTML = '';
-
-  if (hash === '#signup') {
-    createSignUpPage();
-  } else if (hash === '#home') {
-    if (token) {
-      const username = sessionStorage.getItem('username');
-      createHomePage(username);
-    } else {
-      window.location.hash = '#login';
+  switch (hash) {
+    case '#signup':
+      app.innerHTML = '';
+      createSignUpPage(app);
+      break;
+    case '#home':
+      app.innerHTML = '';
+      createHomePage();
+      break;
+    case '#login':
+      app.innerHTML = '';
       createLoginPage();
-    }
-  } else {
-    window.location.hash = '#login';
-    createLoginPage();
+    default:
+      break;
   }
 };
 
-window.addEventListener('hashchange', loadPage);
-document.addEventListener('DOMContentLoaded', loadPage);
-
-document.addEventListener('navigateToSignUP', () => {
-  window.location.hash = '#signup';
-});
-
-document.addEventListener('navigateToLogin', () => {
-  window.location.hash = '#login';
-});
-document.addEventListener('navigateHome', (e) => {
-  sessionStorage.setItem('username', e.detail.username);
-  window.location.hash = '#home';
-});
+document.addEventListener('DOMContentLoaded', renderRoute);
+window.addEventListener('hashchange', renderRoute);

@@ -152,7 +152,8 @@ export const createLoginPage = () => {
     'Sign Up',
     {
       click: () => {
-        document.dispatchEvent(new Event('navigateToSignUP'));
+        window.location.hash = '#signup'
+        // document.dispatchEvent(new Event('navigateToSignUP'));
       },
     }
   );
