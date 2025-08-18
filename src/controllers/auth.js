@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const { loginAuth } = require('./login');
-const { register } = require('./register');
+const { signup } = require('./signup');
 
 const loginUser = (req, res) => {
   const errors = validationResult(req);
@@ -16,7 +16,7 @@ const signUpUser = (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.aprray() });
   }
-  register(req,res)
+  signup(req,res)
 };
 module.exports = {
   loginUser,
