@@ -13,4 +13,5 @@ router.post('/signup', signUpValidation(), signUpUser);
 router.get('/home', authenticateToken, (req, res) => {
   res.json({ message: 'Protected route', user: req.user });
 });
+
 module.exports = router;

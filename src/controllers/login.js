@@ -1,11 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('../../database/connection');
-
+const { getUserByEmailOrUsername } = require('../../models/queries/user');
 const loginAuth = (req, res) => {
   const { user, password } = req.body;
-  pool
-    .query('SELECT * FROM users WHERE email = $1 OR username = $1', [user])
+  getUserByEmailOrUsername(user)
     .then((result) => {
       if (result.rows.length === 0) {
         return res.status(404).json({ error: 'User not found' });

@@ -18,7 +18,7 @@ CREATE TABLE foods (
   image_url TEXT,
   calories INT,
   created_at TIMESTAMP DEFAULT NOW(),
-  user_id INT REFERENCES users(id)
+  user_id INT REFERENCES users(id) ON DELETE CASCADE
 );
 
 COMMIT;
