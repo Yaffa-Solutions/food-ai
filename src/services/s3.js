@@ -1,6 +1,6 @@
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import crypto from 'crypto';
-import {AWS_SETTINGS } from '../../config/config';
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const crypto = require('crypto');
+const { AWS_SETTINGS } = require('../../config/config');
 
 const { region, accessKeyId, secretAccessKey, destBucket } = AWS_SETTINGS;
 
@@ -17,7 +17,7 @@ const uploadToS3 = (buffer) => {
 
   const command = new PutObjectCommand({
     Bucket: destBucket,
-    Key: imageName, 
+    Key: imageName,
     Body: buffer,
     ACL: 'public-read',
     ContentType: 'image/png',
@@ -26,7 +26,7 @@ const uploadToS3 = (buffer) => {
   return S3.send(command).then(() => {
     return `https://${destBucket}.s3.${region}.amazonaws.com/${imageName}`;
   });
-}
+};
 
 module.exports = {
   uploadToS3,
