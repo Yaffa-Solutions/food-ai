@@ -66,6 +66,16 @@ export const createMyfood = () => {
 
   const renderCards = (foods) => {
     grid.innerHTML = '';
+    if (foods.length === 0) {
+      const username = localStorage.getItem('name')
+      const emptyMsg = createHtmlElement(
+        'span',
+        ['text-gray-500', 'text-m', 'col-span-full', 'text-center'],
+        `You didn’t add any food ${username} :)`
+      );
+      customAppendChild(grid, emptyMsg);
+      return;
+    }
     foods.forEach((food) => {
       const card = createHtmlElement('div', [
         'bg-white',
@@ -89,15 +99,15 @@ export const createMyfood = () => {
       const desc = createHtmlElement(
         'p',
         ['text-sm', 'text-gray-600'],
-        food.description 
+        food.description
       );
       const cal = createHtmlElement(
         'p',
         ['text-sm', 'text-gray-600'],
-       ` ${food.calories} Calories` 
+        ` ${food.calories} Calories`
       );
 
-      customAppendChild(body, name, desc,cal);
+      customAppendChild(body, name, desc, cal);
       customAppendChild(card, img, body);
       customAppendChild(grid, card);
     });
