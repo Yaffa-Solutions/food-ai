@@ -232,7 +232,7 @@ export const createHomePage = () => {
         placeholderText.classList.remove('hidden');
       })
       .catch(err => {
-          errorMsg.textContent = 'Server error, try again later';
+          errorMsg.textContent = 'failed to upload';
           errorMsg.classList.remove('hidden');
           console.error(err);
         });
