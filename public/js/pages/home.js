@@ -38,6 +38,17 @@ export const createHomePage = () => {
     'space-x-3',
   ]);
 
+  const myFood = createHtmlElement(
+    'span',
+    ['text-gray-700', 'font-medium','hover:text-blue-400','cursor-pointer','mr-10'],
+    'My Food',
+    {
+      click:()=>{
+        window.location.hash='#myfood'
+      }
+    }
+  );
+
   const userCircle = createHtmlElement(
     'div',
     [
@@ -92,14 +103,13 @@ export const createHomePage = () => {
 
   customAppendChild(dropdown, logoutBtn);
 
-  customAppendChild(userDiv, userCircle, greeting, dropdown);
+  customAppendChild(userDiv,myFood, userCircle, greeting, dropdown);
   customAppendChild(nav, logo, userDiv);
 
   const main = createHtmlElement('main', [
     'flex',
     'justify-center',
     'items-center',
-    'py-20',
     'bg-gray-50',
     'min-h-screen',
   ]);
