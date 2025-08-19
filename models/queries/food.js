@@ -1,19 +1,17 @@
 const pool = require('../../database/connection');
 
-const insertFood = (imagePath, userId) => {
+const insertFood = (imagePath, userId, name, description, calories) => {
   const sql = `
-    INSERT INTO foods (image_url, user_id)
-    VALUES ($1, $2)
+    INSERT INTO foods (image_url, user_id,name ,description, calories)
+    VALUES ($1,$2,$3,$4,$5)
     RETURNING *
   `;
-  return pool.query(sql, [imagePath, userId]);
+  return pool.query(sql, [imagePath, userId, name, description, calories]);
 };
-const GET_FOOD=`SELECT * FROM foods WHERE user_id = $1`
 
+const getfood = (userId) => {
+  const sql = `SELECT * FROM foods WHERE user_id = $1`;
+  return pool.query(sql, [userId]);
+};
 
-const getfood=(userId)=>{
-    return pool.query(GET_FOOD, [userId]);
-
-}
-
-module.exports = { insertFood ,getfood };
+module.exports = { insertFood, getfood };

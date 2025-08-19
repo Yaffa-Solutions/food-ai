@@ -1,3 +1,4 @@
+
 import { createHtmlElement, customAppendChild } from '../../utils/dom.js';
 
 export const createHomePage = () => {
@@ -200,6 +201,22 @@ export const createHomePage = () => {
 
           return;
         }
+        const formData = new FormData();
+      formData.append('image', fileInput.files[0]);
+
+      fetch('/api/foods/add', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      })
+      .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            errorMsg.textContent = data.error;
+            errorMsg.classList.remove('hidden');
+            return;
+          }
+
         errorMsg.textContent = 'Food added successfully!';
         errorMsg.classList.remove('hidden');
         previewImg.classList.remove('text-red-500');
@@ -207,13 +224,19 @@ export const createHomePage = () => {
         setTimeout(() => {
           errorMsg.classList.add('hidden');
           errorMsg.classList.remove('text-green-500');
-
           errorMsg.textContent = '';
         }, 2000);
         fileInput.value = '';
         previewImg.src = '';
         previewImg.classList.add('hidden');
         placeholderText.classList.remove('hidden');
+      })
+      .catch(err => {
+          errorMsg.textContent = 'Server error, try again later';
+          errorMsg.classList.remove('hidden');
+          console.error(err);
+        });
+        
       },
     }
   );
