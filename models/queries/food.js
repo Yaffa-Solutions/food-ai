@@ -9,4 +9,10 @@ const insertFood = (imagePath, userId) => {
   return pool.query(sql, [imagePath, userId]);
 };
 
-module.exports = { insertFood };
+const getfood=(userId)=>{
+  const sql=`SELECT * FROM foods WHERE user_id = $1`
+    return pool.query(sql, [userId]);
+
+}
+
+module.exports = { insertFood ,getfood };
