@@ -110,6 +110,7 @@ export const createHomePage = () => {
     'flex',
     'justify-center',
     'items-center',
+    'py-20',
     'bg-gray-50',
     'min-h-screen',
   ]);

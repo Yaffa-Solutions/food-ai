@@ -124,9 +124,10 @@ export const createMyfood = () => {
 
   searchInput.addEventListener('input', (e) => {
     const searchTerm = e.target.value.toLowerCase();
-    const filteredFoods = allFoods.filter((food) =>
-      food.name.toLowerCase().includes(searchTerm)
-    );
+    const filteredFoods = allFoods.filter((food) =>{
+      const foodName = food.name
+      return foodName.toLowerCase().includes(searchTerm)
+  });
     renderCards(filteredFoods);
   });
 
