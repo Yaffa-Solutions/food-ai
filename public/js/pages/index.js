@@ -1,6 +1,7 @@
 import { createSignUpPage } from './signUp.js';
 import { createLoginPage } from './login.js';
 import { createHomePage } from './home.js';
+import { createMyfood } from './myFood.js';
 
 const app = document.querySelector('.app');
 
@@ -15,6 +16,10 @@ const renderRoute = () => {
     case '#home':
       app.innerHTML = '';
       createHomePage();
+      break;
+    case '#myfood':
+      app.innerHTML = '';
+      createMyfood();
       break;
     case '#login':
       app.innerHTML = '';
