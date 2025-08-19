@@ -8,10 +8,11 @@ const insertFood = (imagePath, userId) => {
   `;
   return pool.query(sql, [imagePath, userId]);
 };
+const GET_FOOD=`SELECT * FROM foods WHERE user_id = $1`
+
 
 const getfood=(userId)=>{
-  const sql=`SELECT * FROM foods WHERE user_id = $1`
-    return pool.query(sql, [userId]);
+    return pool.query(GET_FOOD, [userId]);
 
 }
 
