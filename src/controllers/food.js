@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { insertFood } = require('../../models/queries/food');
+const { insertFood ,getfood} = require('../../models/queries/food');
 
 const addFood = (req, res) => {
   const userId = req.user.id;
@@ -22,4 +22,16 @@ const addFood = (req, res) => {
     .catch((err) => res.status(500).json({ error: err.message }));
 };
 
-module.exports = { addFood };
+const getFoodUser = (req, res) => {
+  const userId = req.user.id;
+  getfood(userId)
+    .then((result) => {
+      res.json({ foods: result.rows });
+    })
+    .catch((err) => {
+      console.error('Error fetching user foods:', err);
+      res.status(500).json({ message: 'Server error' });
+    });
+};
+
+module.exports = { addFood, getFoodUser };
