@@ -1,33 +1,33 @@
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const crypto = require('crypto');
-const { AWS_SETTINGS } = require('../../config/config');
-
-const { region, accessKeyId, secretAccessKey, destBucket } = AWS_SETTINGS;
 
 const S3 = new S3Client({
-  region,
+  region: process.env.AWS_REGION,
   credentials: {
-    accessKeyId,
-    secretAccessKey,
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
 });
 
-const uploadToS3 = (buffer) => {
-  const imageName = `${crypto.randomUUID()}.png`;
+const uploadToS3=(fileBuffer, fileType)=> {
+  const imageName = `${crypto.randomUUID()}.${fileType}`;
 
   const command = new PutObjectCommand({
-    Bucket: destBucket,
+    Bucket: process.env.AWS_S3_BUCKET,
     Key: imageName,
-    Body: buffer,
-    ACL: 'public-read',
-    ContentType: 'image/png',
+    Body: fileBuffer,
+    ContentType: `image/${fileType}`,
   });
+console.log('command',command);
 
-  return S3.send(command).then(() => {
-    return `https://${destBucket}.s3.${region}.amazonaws.com/${imageName}`;
-  });
-};
+  return S3.send(command)
+    .then(() => {
+      return `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${imageName}`;
+    })
+    .catch((err) => {
+      console.error('Error uploading to S3:', err);
+      throw err;
+    });
+}
 
-module.exports = {
-  uploadToS3,
-};
+module.exports = { uploadToS3 };
