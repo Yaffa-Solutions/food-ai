@@ -7,7 +7,6 @@ const insertFood = (imagePath, userId, name, description, calories) => {
     RETURNING *
   `;
   return pool.query(sql, [imagePath, userId, name, description, calories]);
-  return pool.query(sql, [imagePath, userId, name, description, calories]);
 };
 
 const getfood = (userId) => {
