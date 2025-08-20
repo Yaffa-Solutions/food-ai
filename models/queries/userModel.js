@@ -4,7 +4,6 @@ const checkEmail = (email) => {
   return pool
     .query('SELECT * FROM users WHERE email = $1', [email])
     .then((result) => {
-      // return result.rows.length > 0;
       return result.rows[0] || null;
     })
     .catch((err) => {

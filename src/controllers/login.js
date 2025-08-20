@@ -23,7 +23,6 @@ const loginAuth = (req, res) => {
         );
         res.cookie('token', token, {
           maxAge: 7 * 24 * 60 * 60 * 1000,
-          // httpOnly: true,
         });
         res.status(200).json({
           status: '200',
