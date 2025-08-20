@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('../../database/connection');
-const { getUserByEmailOrUsername } = require('../../models/queries/user');
+const { getUserByEmailOrUsername } = require('../../models/queries/userModel');
 const loginAuth = (req, res) => {
   const { user, password } = req.body;
   getUserByEmailOrUsername(user)
@@ -21,11 +21,9 @@ const loginAuth = (req, res) => {
             expiresIn: '7d',
           }
         );
-
         res.cookie('token', token, {
-          maxAge: 60 * 60 * 1000,
+          maxAge: 7 * 24 * 60 * 60 * 1000,
         });
-
         res.status(200).json({
           status: '200',
           user: foundUser,
