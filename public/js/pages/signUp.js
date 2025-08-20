@@ -46,7 +46,7 @@ export const createSignUpPage = () => {
   const subtitle = createHtmlElement(
     'p',
     ['text-gray-500', 'mt-1', 'text-sm'],
-    'i will edit soon'
+    'Manage Your Meals, Intelligently.'
   );
 
   customAppendChild(headerDiv, siteTitle, pageTitle, subtitle);
@@ -135,7 +135,6 @@ export const createSignUpPage = () => {
           .then((data) => {
             
           window.location.hash = '#home';
-            console.log('user', data.user);
             localStorage.setItem('name', data.user.name);
 
           })
