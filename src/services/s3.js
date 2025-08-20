@@ -18,7 +18,6 @@ const uploadToS3=(fileBuffer, fileType)=> {
     Body: fileBuffer,
     ContentType: `image/${fileType}`,
   });
-console.log('command',command);
 
   return S3.send(command)
     .then(() => {

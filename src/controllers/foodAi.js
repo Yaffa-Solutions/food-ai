@@ -15,7 +15,7 @@ const addFoodWithAI = (req, res) => {
   uploadToS3(file.buffer, file.mimetype.split('/')[1])
     .then((imageUrl) => {
       const prompt = `
-        This is an image of food at URL: ${imageUrl}. Analyze it and return JSON and make description shortly and return calories as integer:
+        This is an image of food at URL: ${imageUrl}. Analyze it and return a good descriptive name and description return the answer in JSON format  and return calories as integer:
         {
           "name": "...",
           "description": "...",
