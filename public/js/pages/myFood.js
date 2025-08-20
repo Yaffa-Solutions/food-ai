@@ -190,7 +190,6 @@ export const createMyfood = () => {
       customAppendChild(body, name, desc, cal);
       customAppendChild(card, img, body);
 
-      // دالة البوب أب للحذف
       const showDeletePopup = (food, card, grid) => {
         const popup = createHtmlElement('div', [
           'fixed',
@@ -300,7 +299,7 @@ export const createMyfood = () => {
         {
           click: (e) => {
             e.stopPropagation();
-           showDeletePopup(food, card, grid);
+            showDeletePopup(food, card, grid);
           },
         }
       );

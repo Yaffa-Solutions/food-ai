@@ -9,7 +9,9 @@ const addFood = (req, res) => {
 
   if (!file) return res.status(400).json({ error: 'No image uploaded' });
 
-  uploadToS3(file.buffer)
+  const fileType = file.mimetype.split('/')[1];
+
+  uploadToS3(file.buffer, fileType)
     .then((imageUrl) => insertFood(imageUrl, userId))
     .then((result) =>
       res.json({ message: 'Food image added!', food: result.rows[0] })
