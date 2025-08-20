@@ -1,6 +1,6 @@
 const { insertFood } = require('../../models/queries/food');
 const { uploadToS3 } = require('../services/s3');
-const { getfood } = require('../../models/queries/food');
+const { getfood,deleteByFoodId } = require('../../models/queries/food');
 
 
 const addFood = (req, res) => {
@@ -9,7 +9,9 @@ const addFood = (req, res) => {
 
   if (!file) return res.status(400).json({ error: 'No image uploaded' });
 
-  uploadToS3(file.buffer)
+  const fileType = file.mimetype.split('/')[1];
+
+  uploadToS3(file.buffer, fileType)
     .then((imageUrl) => insertFood(imageUrl, userId))
     .then((result) =>
       res.json({ message: 'Food image added!', food: result.rows[0] })
@@ -29,4 +31,17 @@ const getFoodUser = (req, res) => {
     });
 };
 
-module.exports = { addFood, getFoodUser };
+const deleteFood=(req,res)=>{
+  const {id}=req.params;
+  deleteByFoodId(id)
+  .then((result)=>{
+        res.json({ success: true });
+  })
+  .catch((err) => {
+      console.error(err);
+      res.status(500).json({ message: 'failed to delete' });
+    });
+
+}
+
+module.exports = { addFood, getFoodUser,deleteFood };

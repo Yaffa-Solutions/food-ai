@@ -14,4 +14,10 @@ const getfood = (userId) => {
   return pool.query(sql, [userId]);
 };
 
-module.exports = { insertFood, getfood };
+const deleteByFoodId=(id)=>{
+  const sql=`DELETE FROM foods WHERE id = $1`
+  return pool.query(sql, [id]);
+
+}
+
+module.exports = { insertFood, getfood ,deleteByFoodId};
